@@ -1,0 +1,9 @@
+[submodule "ucfascd/www/js"]
+	path = ucfascd/www/js
+	url = https://github.com/SColchester/cege0043-jsReference
+[submodule "ucfascd/www/css"]
+	path = ucfascd/www/css
+	url = https://github.com/SColchester/cege0043-cssReference
+[submodule "ucfascd/www/images"]
+	path = ucfascd/www/images
+	url = https://github.com/SColchester/cege0043-imagesReference
