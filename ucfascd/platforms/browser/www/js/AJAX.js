@@ -1,15 +1,19 @@
 var xhrNode;
+
+//AJAX request function
 function callDivNodeJSChange() {
-	var url = "http://developer.cege.ucl.ac.uk:"+httpPortNumber;
-	xhrNode.open("GET", url, true);
+	xhrNode = new XMLHttpRequest();
+	var url = "http://developer.cege.ucl.ac.uk:" + httpPortNumber; //gets URL with non-hardcoded port number
+	xhrNode.open("GET", url, true); //send to server
 	xhrNode.onreadystatechange = processDivNodeJSChange;
 	try {
 		xhrNode.setRequestHeader("Content-Type", "application/x-www-formurlencoded");
 		}
-		catch (e) {
+		catch (e) { //only works in Internet Explorer
 		}
 		xhrNode.send();
 	}
+//AJAX response function
 function processDivNodeJSChange() {
 	if (xhrNode.readyState < 4)
 		document.getElementById('ajaxtext').innerHTML = "Loading...";
@@ -18,5 +22,4 @@ function processDivNodeJSChange() {
 			document.getElementById('ajaxtext').innerHTML = xhrNode.responseText;
 	}
 }
-
 
