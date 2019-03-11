@@ -1,10 +1,58 @@
-// adding variable that holds a XMLHttpRequest() for the earthquake data
+// create a variable that will hold the XMLHttpRequest()
+// - this must be done outside a function
 var client;
-//adding a variable for measuring to multiple earthquakes
-var earthquakes;
-// and a variable that will hold the layer itself for the earthquake data
-var earthquakelayer;
-//function to create point, circle and line
+
+var formdata;
+
+// and a variable that will hold the layer itself
+var formdatalayer;
+
+// run the function when you click the LOAD DATA BUTTON
+function loadFormdata() {
+    // keep the alert message so that we know something is happening
+    alert("Loading formdata");
+    getFormdata();
+}
+
+// get the Fromdata data using an XMLHttpRequest
+function getFormdata() {
+    client = new XMLHttpRequest();
+    client.open('GET', 'http://developer.cege.ucl.ac.uk:' + httpPortNumber + '/getFormData/' + httpPortNumber);
+    client.onreadystatechange = formdataResponse;
+    client.send();
+}
+
+// wait for the response from the data server,
+// and process the response once it is received
+function formdataResponse() {
+    // this function listens out for the server to say that
+    // the data is ready - i.e. has state 4
+    if (client.readyState == 4) {
+        // once the data is ready, process the data
+        var formdata_text = client.responseText;
+        loadFormdatalayer(formdata_text);
+    }
+}
+
+// convert the received data - which is text - to JSON format and add it to the map
+function loadFormdatalayer(formdata_text) {
+    // convert the text to JSON
+    var formdatajson = JSON.parse(formdata_text);
+    // pass the earthquake data to the global variable we created earlier
+    formdata = formdatajson;
+    // load the geoJSON layer -- using customer icons
+    formdatalayer = L.geoJson(formdatajson).addTo(mymap);
+    // change the map zoom so that all the data is shown
+    mymap.fitBounds(formdatalayer.getBounds());
+}
+
+// run the function when you click the REMOVE DATA BUTTON
+function removeFormData() {
+    alert("FormData will be removed");
+    mymap.removeLayer(formdatalayer);
+}
+
+// function to create point, circle and line
 function addPointLinePoly(){
 	//adding a point
 	L.marker([51.5, -0.09]).addTo(mymap);
@@ -21,26 +69,5 @@ function addPointLinePoly(){
 		];
 		var polyline = L.polyline(latlngs, {color: 'red'}).addTo(mymap);
 }
-// create function to get Earthquakes data using an XMLHttpRequest
-function getEarthquakes() {
-	client = new XMLHttpRequest();
-	client.open('GET','https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.geojson');
-client.onreadystatechange = earthquakeResponse;
-client.send();
-}
-// code to wait for the response from the data server, and process the response once it is received
-function earthquakeResponse() {
-	if (client.readyState == 4) {
-		var earthquakedata = client.responseText;
-		loadEarthquakelayer(earthquakedata);
-	}
-}
-// define a global variable to hold the layer so that we can use it later on
-var earthquakelayer;
-// convert the received data - which is text - to JSON format and add it to the map
-function loadEarthquakelayer(earthquakedata) {
-	var earthquakejson = JSON.parse(earthquakedata);
-	earthquakes = earthquakejson;
-	earthquakelayer = L.geoJson(earthquakejson).addTo(mymap);
-	mymap.fitBounds(earthquakelayer.getBounds());
-}
+
+
