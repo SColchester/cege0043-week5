@@ -7,7 +7,7 @@ function loadW3HTML() {
 function trackAndCircle(){
 	loadW3HTML()
 	getPort()
-	trackLocation()
+	//trackLocation()
 	//addPointLinePoly()
 	//getEarthquakes()
 }
