@@ -2,12 +2,12 @@ function loadW3HTML() {
     w3.includeHTML();
 }
 
-// functions run as the page is loaded, the two commented below are not active
+// functions run as the page is loaded
 
 function trackAndCircle(){
 	loadW3HTML()
 	getPort()
-	trackLocation()
+	//trackLocation()
 	//addPointLinePoly()
 	//getEarthquakes()
 }
